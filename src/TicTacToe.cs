@@ -26,9 +26,7 @@ namespace TicTacToe
             }
 
             Game game = new Game(clientType);
-            bool winner = game.Run();
-
-            Console.WriteLine(winner ? "CONGRATS" : "SUCK IT NOOB");
+            int score = game.Run();
         }
     }
 

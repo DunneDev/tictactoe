@@ -96,7 +96,7 @@ namespace TicTacToe
             return boardStr;
         }
 
-        string? CheckWinner()
+        string? checkWinner()
         {
             // Check rows
             for (int i = 0; i < 3; i++)
@@ -130,8 +130,37 @@ namespace TicTacToe
             return null;
         }
 
+        bool checkDraw()
+        {
+            // Check if any empty spaces are left
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (board[i, j] == ".")
+                    {
+                        return false;
+                    }
+                }
+            }
 
-        public bool Run()
+            return true;
+        }
+
+        int? checkState()
+        {
+            int? score = null;
+            string? winner = checkWinner();
+            if (winner != null)
+                score = winner == pSymbol ? 1 : -1;
+            else if (checkDraw())
+                score = 0;
+
+            return score;
+        }
+
+
+        public int Run()
         {
             while (true)
             {
@@ -152,11 +181,30 @@ namespace TicTacToe
                     board = parseBoard(boardStr);
                 }
 
-                string? winner = CheckWinner();
-                if (winner != null)
+                int? score = checkState();
+
+                if (score != null)
                 {
-                    return winner == pSymbol;
+                    string finalText;
+                    switch (score)
+                    {
+                        case 1:
+                            finalText = "YOU WIN!";
+                            break;
+                        case -1:
+                            finalText = "YOU LOSE!";
+                            break;
+                        default:
+                            finalText = "DRAW!";
+                            break;
+                    }
+                    Console.Clear();
+                    printBoard();
+                    Console.WriteLine(finalText);
+
+                    return (int)score;
                 }
+
                 p1Turn = !p1Turn;
             }
         }
