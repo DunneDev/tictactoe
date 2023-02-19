@@ -1,4 +1,3 @@
-using System.Data;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -15,7 +14,8 @@ namespace TicTacToe
         {
             socketType = "host";
             IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddr = ipHost.AddressList[1]; // localhost
+            //IPAddress ipAddr = ipHost.AddressList[1];
+            IPAddress ipAddr = IPAddress.Any;
             IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 42069);
 
             socket = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
@@ -32,7 +32,6 @@ namespace TicTacToe
             socket.Connect(remoteEndPoint);
             if (socket.RemoteEndPoint == null)
                 throw new Exception("Error connecting to host");
-            Console.WriteLine("Socket connected to -> {0} ", socket.RemoteEndPoint.ToString());
         }
 
         public void ListenForConnection()
@@ -43,12 +42,12 @@ namespace TicTacToe
                     throw new Exception("Socket is not bound");
 
 
-                Console.WriteLine("Listening for connections on {0}", socket.LocalEndPoint.ToString());
+                //Console.WriteLine("Listening for connections on {0}", socket.LocalEndPoint.ToString());
                 clientSocket = socket.Accept();
             }
             else
             {
-                throw new System.Exception("Cannot listen for connection on a peer socket");
+                throw new Exception("Cannot listen for connection on a peer socket");
             }
         }
 
@@ -89,5 +88,10 @@ namespace TicTacToe
             string data = Encoding.ASCII.GetString(bytes, 0, numByte);
             return data;
         }
+    }
+
+    class HostSocket : GameSocket
+    {
+
     }
 }

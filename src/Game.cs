@@ -132,7 +132,6 @@ namespace TicTacToe
 
         bool checkDraw()
         {
-            // Check if any empty spaces are left
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
@@ -186,6 +185,7 @@ namespace TicTacToe
                 if (score != null)
                 {
                     string finalText;
+                    Console.WriteLine();
                     switch (score)
                     {
                         case 1:

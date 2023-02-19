@@ -1,5 +1,4 @@
-﻿//using System.Net;
-namespace TicTacToe
+﻿namespace TicTacToe
 {
     public class Program
     {
